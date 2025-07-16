@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          git remote add openatom https://github.com/deepin-community/linyaps-box
+          git remote add openatom https://github.com/deepin-community/linyaps
           git fetch openatom --no-tags
           git reset --hard openatom/${{ inputs.branch }}
           rm -r .github || true
