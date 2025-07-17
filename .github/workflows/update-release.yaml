@@ -24,6 +24,7 @@ jobs:
           commit_message: Automated Change
       - run: |
           rm -r debian/patches || true
+          sed -i '/preloader/d' debian/linglong-bin.postinst debian/linglong-bin.install debian/linglong-bin.postinst
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: obs_release_nopatch
