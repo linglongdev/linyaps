@@ -15,7 +15,6 @@ jobs:
           git fetch deepin --no-tags
           git reset --hard openatom/master
           git checkout deepin/master debian
-          git checkout deepin/master rpm
           rm -rf .github
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
@@ -35,7 +34,6 @@ jobs:
           git fetch deepin --no-tags
           git reset --hard openatom/master
           git checkout deepin/develop/20 debian
-          git checkout deepin/develop/20 rpm
           rm -rf .github
       - run: |
           # 禁止单元测试
