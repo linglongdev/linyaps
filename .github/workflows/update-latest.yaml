@@ -33,9 +33,9 @@ jobs:
           git fetch openatom --no-tags
           git remote add deepin https://github.com/deepin-community/linyaps
           git fetch deepin --no-tags
-          git reset --hard openatom/develop/uos
-          git checkout deepin/master debian
-          git checkout deepin/master rpm
+          git reset --hard openatom/master
+          git checkout deepin/develop/uos debian
+          git checkout deepin/develop/uos rpm
           rm -rf .github
       - run: |
           # 禁止单元测试
