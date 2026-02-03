@@ -1,0 +1,33 @@
+name: Update release
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Release Branch'
+        required: true
+        type: string
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          git remote add openatom https://github.com/deepin-community/linyaps
+          git fetch openatom --no-tags
+          git reset --hard openatom/${{ inputs.branch }}
+          rm -r .github || true
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: obs_release
+          create_branch: true
+          push_options: --force
+          commit_message: Automated Change
+      - run: |
+          rm -r debian/patches || true
+          sed -i '/preloader/d' debian/linglong-bin.postinst debian/linglong-bin.install debian/linglong-bin.postinst
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: obs_release_nopatch
+          create_branch: true
+          push_options: --force
+          commit_message: Automated Change
