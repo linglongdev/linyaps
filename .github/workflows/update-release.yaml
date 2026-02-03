@@ -3,11 +3,11 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: 'Release Branch'
+        description: "Release Branch"
         required: true
         type: string
 jobs:
-  sync:
+  obs_release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,9 +22,23 @@ jobs:
           create_branch: true
           push_options: --force
           commit_message: Automated Change
+
+  obs_release_nopatch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
       - run: |
+          git remote add openatom https://github.com/deepin-community/linyaps
+          git fetch openatom --no-tags
+          git reset --hard openatom/${{ inputs.branch }}
+          rm -r .github || true
+      - run: |
+          # 删除patch
           rm -r debian/patches || true
+          # 删除preloader相关的代码
           sed -i '/preloader/d' debian/linglong-bin.postinst debian/linglong-bin.install debian/linglong-bin.postinst
+          # 禁止单元测试
+          sed -i '/set(ENABLE_TESTING/{n; s/ON/OFF/}' CMakeLists.txt
       - uses: stefanzweifel/git-auto-commit-action@v5
         with:
           branch: obs_release_nopatch
