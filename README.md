@@ -28,13 +28,13 @@ https://github.com/OpenAtom-Linyaps/linyaps/issues/1070
 
 rpm和debian 目录来自 https://github.com/deepin-community/linyaps master 分支
 
-### obs_latest_uos
+### obs_latest_uos20
 
-用于构建适用于uos发行版的linyaps
+用于构建适用于uos20发行版的linyaps
 
 代码来自 https://github.com/OpenAtom-Linyaps/linyaps master 分支
 
-rpm和debian 目录来自 https://github.com/deepin-community/linyaps develop/uos 分支
+rpm和debian 目录来自 https://github.com/deepin-community/linyaps develop/20 分支
 
 ### obs_latest_nopatch
 
@@ -48,9 +48,9 @@ rpm和debian 目录来自 https://github.com/deepin-community/linyaps master 分
 
 代码来自 https://github.com/deepin-community/linyaps 最新的 release/xx 分支
 
-### obs_release_uos
+### obs_release_uos20
 
-代码来自 https://github.com/deepin-community/linyaps 最新的 release/uos/xx 分支
+代码来自 https://github.com/deepin-community/linyaps 最新的 release/20/xx 分支
 
 ### obs_release_nopatch
 
