@@ -1,4 +1,4 @@
-name: Update release
+name: Update release uos20
 on:
   workflow_dispatch:
     inputs:
