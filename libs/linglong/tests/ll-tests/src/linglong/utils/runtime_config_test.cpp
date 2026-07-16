@@ -28,6 +28,7 @@ TEST(RuntimeConfigTest, LoadFromPath)
 
     RuntimeConfigure config;
     config.disableXdp = true;
+    config.enablePipewireSocketMount = true;
     config.deviceMode = std::vector<DeviceOption>{ DeviceOption::Passthru };
     config.env =
       std::map<std::string, std::string>{ { "PATH", "/usr/bin" }, { "HOME", "/home/user" } };
@@ -84,6 +85,7 @@ TEST(RuntimeConfigTest, MergeConfigs)
     RuntimeConfigure config1;
     config1.disableXdp = false;
     config1.deviceMode = std::vector<DeviceOption>{ DeviceOption::Passthru };
+    config1.enablePipewireSocketMount = false;
     config1.env =
       std::map<std::string, std::string>{ { "PATH", "/usr/bin" }, { "HOME", "/home/user1" } };
 
@@ -97,6 +99,7 @@ TEST(RuntimeConfigTest, MergeConfigs)
     RuntimeConfigure config2;
     config2.disableXdp = true;
     config2.deviceMode = std::vector<DeviceOption>{ DeviceOption::Passthru };
+    config2.enablePipewireSocketMount = true;
     config2.env =
       std::map<std::string, std::string>{ { "PATH", "/usr/local/bin" }, { "USER", "testuser" } };
 
@@ -113,6 +116,8 @@ TEST(RuntimeConfigTest, MergeConfigs)
     std::vector<RuntimeConfigure> configs = { config1, config2 };
     auto merged = linglong::utils::MergeRuntimeConfig(configs);
 
+    ASSERT_TRUE(merged.enablePipewireSocketMount.has_value());
+    EXPECT_TRUE(*merged.enablePipewireSocketMount);
     ASSERT_TRUE(merged.disableXdp.has_value());
     EXPECT_TRUE(*merged.disableXdp);
 
@@ -147,6 +152,7 @@ TEST(RuntimeConfigTest, MergeEmptyConfigs)
     std::vector<RuntimeConfigure> empty_configs;
     auto merged = linglong::utils::MergeRuntimeConfig(empty_configs);
 
+    EXPECT_FALSE(merged.enablePipewireSocketMount);
     EXPECT_FALSE(merged.disableXdp);
     EXPECT_FALSE(merged.deviceMode);
     EXPECT_FALSE(merged.env);
@@ -158,6 +164,7 @@ TEST(RuntimeConfigTest, MergePartialConfigs)
     // Config with only env
     RuntimeConfigure config1;
     config1.disableXdp = false;
+    config1.enablePipewireSocketMount = false;
     config1.deviceMode = std::vector<DeviceOption>{ DeviceOption::Passthru };
     config1.env = std::map<std::string, std::string>{ { "PATH", "/usr/bin" } };
 
@@ -178,6 +185,8 @@ TEST(RuntimeConfigTest, MergePartialConfigs)
     nlohmann::json j;
     linglong::api::types::v1::to_json(j, merged);
     LogD("{}", j.dump());
+    ASSERT_TRUE(merged.enablePipewireSocketMount.has_value());
+    EXPECT_FALSE(*merged.enablePipewireSocketMount);
 
     ASSERT_TRUE(merged.disableXdp.has_value());
     EXPECT_FALSE(*merged.disableXdp);
@@ -336,9 +345,9 @@ TEST(RuntimeConfigTest, LoadRuntimeConfigWithInstanceMounts)
     file << j.dump();
     file.close();
 
-    EnvironmentVariableGuard xdgGuard("XDG_CONFIG_HOME", tempDir.path().string());
+    std::vector<std::filesystem::path> configDirs = { tempDir.path() / "linglong" };
 
-    auto loadedDefault = linglong::utils::loadRuntimeConfig("test-app", "");
+    auto loadedDefault = linglong::utils::loadRuntimeConfig(configDirs, "test-app", "");
     ASSERT_TRUE(loadedDefault.has_value());
     EXPECT_TRUE(loadedDefault->has_value());
     auto &defaultConfig = **loadedDefault;
@@ -348,7 +357,7 @@ TEST(RuntimeConfigTest, LoadRuntimeConfigWithInstanceMounts)
     EXPECT_EQ(defaultConfig.mounts->at(0).destination, "/tmp/base");
     EXPECT_FALSE(defaultConfig.instances.has_value());
 
-    auto loadedDev = linglong::utils::loadRuntimeConfig("test-app", "dev");
+    auto loadedDev = linglong::utils::loadRuntimeConfig(configDirs, "test-app", "dev");
     ASSERT_TRUE(loadedDev.has_value());
     EXPECT_TRUE(loadedDev->has_value());
     auto &devConfig = **loadedDev;

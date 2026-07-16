@@ -201,6 +201,11 @@ ll-cli run org.deepin.demo -- bash -x /path/to/bash/script)"));
                  runOptions.disableXdp,
                  _("Enable or disable xdg-desktop-portal related integration inside the sandbox"))
       ->take_last();
+    cliRun
+      ->add_flag("--enable-pipewire",
+                 runOptions.enablePipewireSocketMount,
+                 _("Enable PipeWire socket mount inside the sandbox"))
+      ->take_last();
     cliRun->add_option("--run-context", runOptions.runContext, _("Run context json string"))
       ->group("");
     cliRun
@@ -625,9 +630,9 @@ You can report bugs to the linyaps team under this project: https://github.com/O
     // print version if --version flag is set
     if (*versionFlag) {
         if (*jsonFlag) {
-            std::cout << nlohmann::json{ { "version", LINGLONG_VERSION } } << std::endl;
+            std::cout << nlohmann::json{ { "version", LINGLONG_VERSION_FULL } } << std::endl;
         } else {
-            std::cout << _("linyaps CLI version ") << LINGLONG_VERSION << std::endl;
+            std::cout << _("linyaps CLI version ") << LINGLONG_VERSION_FULL << std::endl;
         }
         return 0;
     }
