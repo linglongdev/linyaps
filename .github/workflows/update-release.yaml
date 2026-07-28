@@ -1,22 +1,25 @@
 name: Update release
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: "Release Branch"
-        required: true
-        type: string
 jobs:
   obs_release_deepin:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
+
+      - name: Get latest release branch
+        id: detect_branch
+        run: |
+          TARGET_BRANCH=$(git ls-remote --heads https://github.com/OpenAtom-Linyaps/linyaps | awk -F'/' '/release/ {print $NF}' | sort -V | tail -n 1)
+          echo "target_branch=${TARGET_BRANCH}" >> $GITHUB_OUTPUT
+
       - run: |
-          git remote add openatom https://github.com/deepin-community/linyaps
-          git fetch openatom --no-tags
-          git reset --hard openatom/${{ inputs.branch }}
+          git remote add upstream https://github.com/deepin-community/linyaps
+          git fetch upstream --no-tags
+          git reset --hard upstream/${{ steps.detect_branch.outputs.target_branch }}
           rm -r .github || true
-      - uses: stefanzweifel/git-auto-commit-action@v5
+
+      - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           branch: obs_release_deepin
           create_branch: true
@@ -26,12 +29,20 @@ jobs:
   obs_release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
+
+      - name: Get latest release branch
+        id: detect_branch
+        run: |
+          TARGET_BRANCH=$(git ls-remote --heads https://github.com/OpenAtom-Linyaps/linyaps | awk -F'/' '/release/ {print $NF}' | sort -V | tail -n 1)
+          echo "target_branch=${TARGET_BRANCH}" >> $GITHUB_OUTPUT
+
       - run: |
-          git remote add openatom https://github.com/deepin-community/linyaps
-          git fetch openatom --no-tags
-          git reset --hard openatom/${{ inputs.branch }}
+          git remote add upstream https://github.com/deepin-community/linyaps
+          git fetch upstream --no-tags
+          git reset --hard upstream/${{ steps.detect_branch.outputs.target_branch }}
           rm -r .github || true
+
       - run: |
           # 删除patch
           rm -r debian/patches || true
@@ -41,7 +52,8 @@ jobs:
           sed -i '\#etc/linglong/config.json#d' debian/linglong-bin.install
           # 禁止单元测试
           sed -i '/set(ENABLE_TESTING/{n; s/ON/OFF/}' CMakeLists.txt
-      - uses: stefanzweifel/git-auto-commit-action@v5
+
+      - uses: stefanzweifel/git-auto-commit-action@v7
         with:
           branch: obs_release
           create_branch: true
