@@ -1,6 +1,8 @@
 name: Update release
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 0 * 6 *"
 jobs:
   obs_release_deepin:
     runs-on: ubuntu-latest
