@@ -10,13 +10,13 @@ jobs:
       - name: Get latest release branch
         id: detect_branch
         run: |
-          TARGET_BRANCH=$(git ls-remote --heads https://github.com/OpenAtom-Linyaps/linyaps | awk -F'/' '/release/ {print $NF}' | sort -V | tail -n 1)
+          TARGET_BRANCH=$(git ls-remote --heads https://github.com/deepin-community/linyaps | grep 'release/[0-9]\.' | awk -F'/' '{print $NF}' | sort -V | tail -n 1)
           echo "target_branch=${TARGET_BRANCH}" >> $GITHUB_OUTPUT
 
       - run: |
           git remote add upstream https://github.com/deepin-community/linyaps
           git fetch upstream --no-tags
-          git reset --hard upstream/${{ steps.detect_branch.outputs.target_branch }}
+          git reset --hard upstream/release/${{ steps.detect_branch.outputs.target_branch }}
           rm -r .github || true
 
       - uses: stefanzweifel/git-auto-commit-action@v7
@@ -34,13 +34,13 @@ jobs:
       - name: Get latest release branch
         id: detect_branch
         run: |
-          TARGET_BRANCH=$(git ls-remote --heads https://github.com/OpenAtom-Linyaps/linyaps | awk -F'/' '/release/ {print $NF}' | sort -V | tail -n 1)
+          TARGET_BRANCH=$(git ls-remote --heads https://github.com/deepin-community/linyaps | grep 'release/[0-9]\.' | awk -F'/' '{print $NF}' | sort -V | tail -n 1)
           echo "target_branch=${TARGET_BRANCH}" >> $GITHUB_OUTPUT
 
       - run: |
           git remote add upstream https://github.com/deepin-community/linyaps
           git fetch upstream --no-tags
-          git reset --hard upstream/${{ steps.detect_branch.outputs.target_branch }}
+          git reset --hard upstream/release/${{ steps.detect_branch.outputs.target_branch }}
           rm -r .github || true
 
       - run: |
