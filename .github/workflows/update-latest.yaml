@@ -2,7 +2,7 @@ name: Update latest
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 2 * * *"
+    - cron: "0 0 * * *"
 jobs:
   obs_latest_deepin:
     runs-on: ubuntu-latest
@@ -61,7 +61,7 @@ jobs:
           # 删除preloader相关的代码
           sed -i '/preloader/d' debian/linglong-bin.postinst debian/linglong-bin.install debian/linglong-bin.postinst
           # 从linglong-bin.install删除config.json
-          sed -i '|etc/linglong/config.json|d' debian/linglong-bin.install
+          sed -i '#etc/linglong/config.json#d' debian/linglong-bin.install
           # 禁止单元测试
           sed -i '/set(ENABLE_TESTING/{n; s/ON/OFF/}' CMakeLists.txt
       - uses: stefanzweifel/git-auto-commit-action@v5
