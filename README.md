@@ -1,6 +1,6 @@
 # 说明
 
-该仓库用于在 build.deepin.org 构建 linyaps
+该仓库用于在 build.deepin.com 构建 linyaps
 
 ## 项目
 
@@ -18,15 +18,15 @@ https://build.deepin.com/project/show/linglong:CI:release
 
 ## 分支说明
 
-分支分为 latest 和 release，latest 会每天自动更新，release 需要在 linyaps 发版时手动触发，触发时手动输入上游的 release 分支
+分为 latest 和 release，latest 会每天自动更新，release 需要在 linyaps 发版时手动触发，触发时手动输入上游的 release 分支
 
 ### obs_latest
 
-用于构建适用于deepin发行版的linyaps
+用于构建非deepin/uos发行版的linyaps
 
 代码来自 https://github.com/OpenAtom-Linyaps/linyaps master 分支
 
-rpm和debian 目录来自 https://github.com/deepin-community/linyaps master 分支
+rpm和debian 目录来自 https://github.com/deepin-community/linyaps master 分支，删除 patchs 目录并关闭单元测试
 
 ### obs_latest_uos20
 
@@ -36,22 +36,22 @@ rpm和debian 目录来自 https://github.com/deepin-community/linyaps master 分
 
 rpm和debian 目录来自 https://github.com/deepin-community/linyaps develop/20 分支
 
-### obs_latest_nopatch
+### obs_latest_deepin
 
-用于构建适用于其它发行版的linyaps
+用于构建适用于deepin发行版的linyaps
 
 代码来自 https://github.com/OpenAtom-Linyaps/linyaps master 分支
 
-rpm和debian 目录来自 https://github.com/deepin-community/linyaps master 分支，删除 patchs 目录并关闭单元测试
+rpm和debian 目录来自 https://github.com/deepin-community/linyaps master 分支
 
 ### obs_release
 
-代码来自 https://github.com/deepin-community/linyaps 最新的 release/xx 分支
+代码来自 https://github.com/deepin-community/linyaps 最新的 release/xx 分支，删除 patchs 目录并关闭单元测试
 
 ### obs_release_uos20
 
 代码来自 https://github.com/deepin-community/linyaps 最新的 release/20/xx 分支
 
-### obs_release_nopatch
+### obs_release_deepin
 
-代码来自 https://github.com/deepin-community/linyaps 最新的 release/xx 分支，删除 patchs 目录并关闭单元测试
+代码来自 https://github.com/deepin-community/linyaps 最新的 release/xx 分支
