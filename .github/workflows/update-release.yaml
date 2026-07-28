@@ -26,6 +26,34 @@ jobs:
           push_options: --force
           commit_message: Automated Change
 
+  obs_release_uos20:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Get latest release branch
+        id: detect_branch
+        run: |
+          TARGET_BRANCH=$(git ls-remote --heads https://github.com/deepin-community/linyaps | grep 'release/[0-9]\.' | awk -F'/' '{print $NF}' | sort -V | tail -n 1)
+          echo "target_branch=${TARGET_BRANCH}" >> $GITHUB_OUTPUT
+
+      - run: |
+          git remote add upstream https://github.com/deepin-community/linyaps
+          git fetch upstream --no-tags
+          git reset --hard upstream/release/${{ steps.detect_branch.outputs.target_branch }}
+          rm -r .github || true
+
+      - run: |
+          # 禁止单元测试
+          sed -i '/set(ENABLE_TESTING/{n; s/ON/OFF/}' CMakeLists.txt
+
+      - uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          branch: obs_release_uos20
+          create_branch: true
+          push_options: --force
+          commit_message: Automated Change
+
   obs_release:
     runs-on: ubuntu-latest
     steps:
