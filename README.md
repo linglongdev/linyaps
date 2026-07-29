@@ -18,7 +18,7 @@ https://build.deepin.com/project/show/linglong:CI:release
 
 ## 分支说明
 
-分为 latest 和 release，latest 会每天自动更新，release 需要在 linyaps 发版时手动触发，触发时手动输入上游的 release 分支
+分为 latest 和 release，latest 会每天自动更新，release 每周六自动使用最新的release/xx更新
 
 ### obs_latest
 
