@@ -27,7 +27,7 @@ if [ "$1" = "configure" ] || [ "$1" = "abort-upgrade" ] || [ "$1" = "abort-decon
                         systemctl --user --machine="$instance"@ daemon-reload >/dev/null || true
                 done
                 for instance in $instances; do
-                        systemctl --global --machine="${instance}"@ enable cn.org.linyaps.preloader.service > /dev/null || true
+echo skip preloader
                 done
         fi
 fi
