@@ -1,6 +1,5 @@
 debian/sysctl.d/linglong.conf usr/lib/sysctl.d/
 etc/X11/Xsession.d/21linglong
-etc/linglong/config.json
 etc/profile.d/linglong.sh
 usr/bin/ll-cli
 usr/bin/llpkg
@@ -8,7 +7,6 @@ usr/lib/linglong/*
 usr/lib/systemd/system-environment-generators/61-linglong
 usr/lib/systemd/system/org.deepin.linglong.PackageManager.service lib/systemd/system/
 usr/lib/systemd/user-generators/linglong-user-systemd-generator
-usr/lib/systemd/user/cn.org.linyaps.preloader.service
 usr/lib/sysusers.d/linglong.conf
 usr/lib/tmpfiles.d/linglong.conf
 usr/libexec/linglong/font-cache-generator
