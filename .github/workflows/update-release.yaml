@@ -22,20 +22,8 @@ jobs:
           git fetch openatom --no-tags
           git reset --hard deepin/release/${{ steps.detect_branch.outputs.target_branch }}
           rm -r .github || true
-
-      - name: Restore third-party libraries from upstream
-        run: |
-          # deepin-community 的 release 分支删除了 external 下的三方库
-          # （fmt、CLI11、tl-expected 等），这里从上游对应的 release 分支恢复
-          upstream_ref="openatom/release/${{ steps.detect_branch.outputs.target_branch }}"
-          if ! git rev-parse --verify --quiet "${upstream_ref}" > /dev/null; then
-            echo "::warning::${upstream_ref} 不存在，改用 openatom/master 恢复三方库"
-            upstream_ref="openatom/master"
-          fi
-          git diff --no-renames --name-only --diff-filter=D "${upstream_ref}" HEAD -- external |
-            while read -r file; do
-              git checkout "${upstream_ref}" -- "${file}"
-            done
+          # deepin-community 的 release 分支删除了 external 下的三方库，从上游对应分支恢复
+          git checkout openatom/release/${{ steps.detect_branch.outputs.target_branch }} -- external
 
       - uses: stefanzweifel/git-auto-commit-action@v7
         with:
@@ -62,20 +50,8 @@ jobs:
           git fetch openatom --no-tags
           git reset --hard deepin/release/${{ steps.detect_branch.outputs.target_branch }}
           rm -r .github || true
-
-      - name: Restore third-party libraries from upstream
-        run: |
-          # deepin-community 的 release 分支删除了 external 下的三方库
-          # （fmt、CLI11、tl-expected 等），这里从上游对应的 release 分支恢复
-          upstream_ref="openatom/release/${{ steps.detect_branch.outputs.target_branch }}"
-          if ! git rev-parse --verify --quiet "${upstream_ref}" > /dev/null; then
-            echo "::warning::${upstream_ref} 不存在，改用 openatom/master 恢复三方库"
-            upstream_ref="openatom/master"
-          fi
-          git diff --no-renames --name-only --diff-filter=D "${upstream_ref}" HEAD -- external |
-            while read -r file; do
-              git checkout "${upstream_ref}" -- "${file}"
-            done
+          # deepin-community 的 release 分支删除了 external 下的三方库，从上游对应分支恢复
+          git checkout openatom/release/${{ steps.detect_branch.outputs.target_branch }} -- external
 
       - run: |
           # 禁止单元测试
@@ -106,20 +82,8 @@ jobs:
           git fetch openatom --no-tags
           git reset --hard deepin/release/${{ steps.detect_branch.outputs.target_branch }}
           rm -r .github || true
-
-      - name: Restore third-party libraries from upstream
-        run: |
-          # deepin-community 的 release 分支删除了 external 下的三方库
-          # （fmt、CLI11、tl-expected 等），这里从上游对应的 release 分支恢复
-          upstream_ref="openatom/release/${{ steps.detect_branch.outputs.target_branch }}"
-          if ! git rev-parse --verify --quiet "${upstream_ref}" > /dev/null; then
-            echo "::warning::${upstream_ref} 不存在，改用 openatom/master 恢复三方库"
-            upstream_ref="openatom/master"
-          fi
-          git diff --no-renames --name-only --diff-filter=D "${upstream_ref}" HEAD -- external |
-            while read -r file; do
-              git checkout "${upstream_ref}" -- "${file}"
-            done
+          # deepin-community 的 release 分支删除了 external 下的三方库，从上游对应分支恢复
+          git checkout openatom/release/${{ steps.detect_branch.outputs.target_branch }} -- external
 
       - run: |
           # 删除patch
