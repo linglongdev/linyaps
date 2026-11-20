@@ -48,10 +48,16 @@ rpm和debian 目录来自 https://github.com/deepin-community/linyaps master 分
 
 代码来自 https://github.com/deepin-community/linyaps 最新的 release/xx 分支，删除 patchs 目录并关闭单元测试
 
+deepin-community 删除的三方库（external 下的 fmt、CLI11、tl-expected 等）从 https://github.com/OpenAtom-Linyaps/linyaps 对应的 release/xx 分支恢复
+
 ### obs_release_uos20
 
 代码来自 https://github.com/deepin-community/linyaps 最新的 release/xx 分支，关闭单元测试
 
+deepin-community 删除的三方库（external 下的 fmt、CLI11、tl-expected 等）从 https://github.com/OpenAtom-Linyaps/linyaps 对应的 release/xx 分支恢复
+
 ### obs_release_deepin
 
 代码来自 https://github.com/deepin-community/linyaps 最新的 release/xx 分支
+
+deepin-community 删除的三方库（external 下的 fmt、CLI11、tl-expected 等）从 https://github.com/OpenAtom-Linyaps/linyaps 对应的 release/xx 分支恢复
